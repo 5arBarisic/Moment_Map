@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "525662604527",
+    "project_id": "momentmap-faef6",
+    "storage_bucket": "momentmap-faef6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:525662604527:android:97e4c9cde60adac4e6df1a",
+        "android_client_info": {
+          "package_name": "com.example.momentmap"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAAucHgmiYxSaxEksRIEQWklQTZ53zBmFk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">MomentMap</string>
+    <string name="sign_in">Sign In</string>
+    <string name="email">E-mail</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="password_helper_text">Password must contain at least 8 characters</string>
+    <string name="password_mismatch">Password mismatch</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="required">Required</string>
+    <string name="add_product">Add product</string>
+    <string name="scan_product">Scan product</string>
+    <string name="product_info">Product name: %s</string>
+    <string name="quantity_info">Quantity: %d pcs</string>
+    <string name="expiration_date">Expiration date: %s</string>
+    <string name="product_name_hint">Product name</string>
+    <string name="product_expiration_date">%s.%s.%s</string>
+    <string name="sign_out">Sign out</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
