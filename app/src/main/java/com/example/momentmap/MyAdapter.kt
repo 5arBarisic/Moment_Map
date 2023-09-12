@@ -1,13 +1,13 @@
 package com.example.momentmap
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 
 class MyAdapter(private val context: Context, private var momentList: List<Moment>) : RecyclerView.Adapter<MyViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -15,9 +15,18 @@ class MyAdapter(private val context: Context, private var momentList: List<Momen
         return MyViewHolder(view)
     }
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-
         holder.recTitle.text = momentList[position].title
         holder.recDate.text = momentList[position].date
+
+        holder.recCard.setOnClickListener {
+            val intent = Intent(context, MomentDetails::class.java)
+            intent.putExtra("Image", momentList[holder.adapterPosition].imageUrl)
+            intent.putExtra("Description", momentList[holder.adapterPosition].description)
+            intent.putExtra("Title", momentList[holder.adapterPosition].title)
+            intent.putExtra("Location", momentList[holder.adapterPosition].location)
+            intent.putExtra("Date", momentList[holder.adapterPosition].date)
+            context.startActivity(intent)
+        }
     }
     override fun getItemCount(): Int {
         return momentList.size
