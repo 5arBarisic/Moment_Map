@@ -5,8 +5,10 @@ import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +16,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.FileProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.momentmap.databinding.FragmentAddMomentBinding
@@ -21,6 +24,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
+import java.io.IOException
 import java.util.Calendar
 import java.util.UUID
 
@@ -40,22 +47,61 @@ class AddMomentFragment : Fragment() {
         binding = FragmentAddMomentBinding.inflate(layoutInflater)
         val rootView = binding.root
 
-        val activityResultLauncher = registerForActivityResult<Intent, ActivityResult>(
+        val activityResultLauncherForUploadImage =
+            registerForActivityResult<Intent, ActivityResult>(
+                ActivityResultContracts.StartActivityForResult()
+            ) { result ->
+                if (result.resultCode == RESULT_OK) {
+                    val data = result.data
+                    uri = data!!.data
+                    binding.uploadImage.setImageURI(uri)
+                } else {
+                    Toast.makeText(this.context, "No image selected", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+        val activityResultLauncherForTakePhoto = registerForActivityResult<Intent, ActivityResult>(
             ActivityResultContracts.StartActivityForResult()
         ) { result ->
             if (result.resultCode == RESULT_OK) {
                 val data = result.data
-                uri = data!!.data
-                binding.uploadImage.setImageURI(uri)
+                val originalBitmap = data?.extras?.get("data") as Bitmap?
+
+                if (originalBitmap != null) {
+                    // Define the target width and height for the scaled bitmap
+                    val targetWidth = 1024 // Adjust as needed
+                    val targetHeight = 768 // Adjust as needed
+
+                    // Create a scaled bitmap with the target dimensions
+                    val scaledBitmap = Bitmap.createScaledBitmap(
+                        originalBitmap,
+                        targetWidth,
+                        targetHeight,
+                        false
+                    )
+
+                    // Save the scaled bitmap and get its Uri
+                    uri = saveImage(scaledBitmap)
+
+                    // Set the image to your ImageView
+                    binding.uploadImage.setImageURI(uri)
+                } else {
+                    Toast.makeText(this.context, "No image data received", Toast.LENGTH_SHORT).show()
+                }
             } else {
                 Toast.makeText(this.context, "No image selected", Toast.LENGTH_SHORT).show()
             }
         }
 
+        binding.takePhoto.setOnClickListener {
+            val photoTake = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+            activityResultLauncherForTakePhoto.launch(photoTake)
+        }
+
         binding.uploadImage.setOnClickListener {
             val photoPicker = Intent(Intent.ACTION_PICK)
             photoPicker.type = "image/*"
-            activityResultLauncher.launch(photoPicker)
+            activityResultLauncherForUploadImage.launch(photoPicker)
         }
 
         binding.uploadDate.setOnClickListener { onDateClick() }
@@ -68,7 +114,30 @@ class AddMomentFragment : Fragment() {
         return rootView
     }
 
-    private fun onDateClick(){
+    private fun saveImage(image: Bitmap): Uri? {
+        val imagesFolder: File = File(requireContext().cacheDir, "images")
+        var uri1: Uri? = null
+        try {
+            imagesFolder.mkdirs()
+            val file = File(imagesFolder, "captured_image.jpg")
+            val stream = FileOutputStream(file)
+            image.compress(Bitmap.CompressFormat.JPEG, 100, stream)
+            stream.flush()
+            stream.close()
+            uri1 = FileProvider.getUriForFile(
+                requireContext(),
+                "com.example.momentmap.provider",
+                file
+            )
+        } catch (e: FileNotFoundException) {
+            e.printStackTrace()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        return uri1
+    }
+
+    private fun onDateClick() {
         val c = Calendar.getInstance()
         val year = c.get(Calendar.YEAR)
         val month = c.get(Calendar.MONTH)
@@ -107,26 +176,26 @@ class AddMomentFragment : Fragment() {
 
         storageReference.putFile(uri!!).addOnSuccessListener { taskSnapshot ->
             val uriTask = taskSnapshot.storage.downloadUrl
-            while(!uriTask.isComplete);
-                val urlImage = uriTask.result
+            while (!uriTask.isComplete);
+            val urlImage = uriTask.result
             imageURL = urlImage.toString()
             uploadData()
             dialog.dismiss()
 
 
-        }.addOnFailureListener{
+        }.addOnFailureListener {
             dialog.dismiss()
         }
 
     }
 
-    private fun uploadData(){
+    private fun uploadData() {
         val title = binding.uploadTitle.text.toString()
         val desc = binding.uploadDesc.text.toString()
         val location = binding.uploadLocation.text.toString()
         val date = binding.uploadDate.text.toString()
 
-        val moment = Moment(title,desc,location,date,imageURL)
+        val moment = Moment(title, desc, location, date, imageURL)
 
         navController = NavHostFragment.findNavController(this)
 

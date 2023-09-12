@@ -10,7 +10,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="20dp"
         android:layout_marginStart="20dp"
         app:cardCornerRadius="20dp"
@@ -33,12 +33,21 @@
             <ImageView
                 android:layout_width="200dp"
                 android:layout_gravity="center"
-                android:layout_height="230dp"
+                android:layout_height="210dp"
                 android:id="@+id/uploadImage"
                 android:src="@drawable/uploadimg"
                 android:layout_marginTop="10dp"
                 android:scaleType="fitXY"
                 android:contentDescription="add image" />
+            <Button
+                android:layout_width="150dp"
+                android:layout_height="60dp"
+                android:text="Take photo"
+                android:layout_gravity="center"
+                android:id="@+id/takePhoto"
+                android:textSize="18sp"
+                android:layout_marginTop="20dp"
+                app:cornerRadius = "10dp"/>
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
