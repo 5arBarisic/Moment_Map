@@ -36,7 +36,7 @@
                 android:layout_height="210dp"
                 android:id="@+id/uploadImage"
                 android:src="@drawable/uploadimg"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:scaleType="fitXY"
                 android:contentDescription="add image" />
             <Button

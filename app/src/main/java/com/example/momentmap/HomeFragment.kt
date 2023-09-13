@@ -59,7 +59,8 @@ class HomeFragment : Fragment() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 momentList.clear()
                 for(itemSnapshot in snapshot.children){
-                    val moment = itemSnapshot.getValue(Moment::class.java)
+                    var moment = itemSnapshot.getValue(Moment::class.java)
+                    moment!!.id = itemSnapshot.key;
                     if(moment!=null){
                         momentList.add(moment)
                     }

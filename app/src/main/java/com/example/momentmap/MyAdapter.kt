@@ -20,6 +20,7 @@ class MyAdapter(private val context: Context, private var momentList: List<Momen
 
         holder.recCard.setOnClickListener {
             val intent = Intent(context, MomentDetails::class.java)
+            intent.putExtra("Id",momentList[holder.adapterPosition].id)
             intent.putExtra("Image", momentList[holder.adapterPosition].imageUrl)
             intent.putExtra("Description", momentList[holder.adapterPosition].description)
             intent.putExtra("Title", momentList[holder.adapterPosition].title)
