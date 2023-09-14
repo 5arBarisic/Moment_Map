@@ -1,4 +1,4 @@
-package com.example.momentmap
+package com.example.momentmap.ui.moments
 
 import android.content.Context
 import android.content.Intent
@@ -8,6 +8,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.momentmap.ui.moment_detail.MomentDetails
+import com.example.momentmap.R
+import com.example.momentmap.data.Moment
 
 class MyAdapter(private val context: Context, private var momentList: List<Moment>) : RecyclerView.Adapter<MyViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {

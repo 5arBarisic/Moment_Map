@@ -1,4 +1,4 @@
-package com.example.momentmap
+package com.example.momentmap.ui.new_moment
 
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
@@ -19,6 +19,8 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import com.example.momentmap.R
+import com.example.momentmap.data.Moment
 import com.example.momentmap.databinding.FragmentAddMomentBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -165,30 +167,37 @@ class AddMomentFragment : Fragment() {
 
     @SuppressLint("SuspiciousIndentation")
     private fun saveData() {
-        val storageReference = FirebaseStorage.getInstance().reference.child("Moment images")
-            .child(uri!!.lastPathSegment!!)
+        if(uri != null) {
+            val storageReference = FirebaseStorage.getInstance().reference.child("Moment images")
+                .child(uri!!.lastPathSegment!!)
 
 
-        val builder = AlertDialog.Builder(this.activity)
-        builder.setCancelable(false)
-        builder.setView(R.layout.progress)
-        val dialog = builder.create()
-        dialog.show()
+            val builder = AlertDialog.Builder(this.activity)
+            builder.setCancelable(false)
+            builder.setView(R.layout.progress)
+            val dialog = builder.create()
+            dialog.show()
 
-        storageReference.putFile(uri!!).addOnSuccessListener { taskSnapshot ->
-            val uriTask = taskSnapshot.storage.downloadUrl
-            while (!uriTask.isComplete);
-            val urlImage = uriTask.result
-            imageURL = urlImage.toString()
-            dialog.dismiss()
-            uploadData()
+            storageReference.putFile(uri!!).addOnSuccessListener { taskSnapshot ->
+                val uriTask = taskSnapshot.storage.downloadUrl
+                while (!uriTask.isComplete);
+                val urlImage = uriTask.result
+                imageURL = urlImage.toString()
+                dialog.dismiss()
+                uploadData()
 
 
+            }.addOnFailureListener {
+                dialog.dismiss()
+            }
+        }else{
+                imageURL=null
+                uploadData()
+            }
 
-        }.addOnFailureListener {
-            dialog.dismiss()
-        }
-
+    }
+    private fun checkString(test:String): Boolean {
+        return !(test =="" || test ==null)
     }
 
     private fun uploadData() {
@@ -197,22 +206,29 @@ class AddMomentFragment : Fragment() {
         val location = binding.uploadLocation.text.toString()
         val date = binding.uploadDate.text.toString()
 
-        val moment = Moment(title, desc, location, date, imageURL)
 
-        navController = NavHostFragment.findNavController(this)
+        if (checkString(title) && checkString(desc) && checkString(location) && checkString(date)) {
 
-        auth = FirebaseAuth.getInstance()
-        database = FirebaseDatabase
-            .getInstance("https://momentmap-faef6-default-rtdb.europe-west1.firebasedatabase.app/")
-            .getReference("Users")
+            val moment = Moment(title, desc, location, date, imageURL)
 
-        database.child(auth.currentUser?.uid.toString()).child("Moments")
-            .child(UUID.randomUUID().toString()).setValue(moment).addOnSuccessListener {
-                Toast.makeText(this.context, "Moment saved!", Toast.LENGTH_SHORT).show()
-                navController.navigate(R.id.action_addMomentFragment_to_homeFragment)
-            }.addOnFailureListener {
-                Toast.makeText(this.context, "Moment isn't saved!", Toast.LENGTH_SHORT).show()
-            }
+            navController = NavHostFragment.findNavController(this)
 
+            auth = FirebaseAuth.getInstance()
+            database = FirebaseDatabase
+                .getInstance("https://momentmap-faef6-default-rtdb.europe-west1.firebasedatabase.app/")
+                .getReference("Users")
+
+            database.child(auth.currentUser?.uid.toString()).child("Moments")
+                .child(UUID.randomUUID().toString()).setValue(moment).addOnSuccessListener {
+                    Toast.makeText(this.context, "Moment saved!", Toast.LENGTH_SHORT).show()
+                    navController.navigate(R.id.action_addMomentFragment_to_homeFragment)
+                }.addOnFailureListener {
+                    Toast.makeText(this.context, "Moment isn't saved!", Toast.LENGTH_SHORT).show()
+                }
+
+        }
+        else{
+            Toast.makeText(this.context, "Please fill out all fields.", Toast.LENGTH_SHORT).show()
+        }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.momentmap
+package com.example.momentmap.ui.settings
 
 import android.content.Intent
 import android.os.Bundle
@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.momentmap.authentication.SignInActivity
 import com.example.momentmap.databinding.FragmentSettingsBinding
 import com.google.firebase.auth.FirebaseAuth
 

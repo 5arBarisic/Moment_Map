@@ -36,13 +36,13 @@
         </provider>
 
         <activity
-            android:name=".MomentDetails"
+            android:name=".ui.moment_detail.MomentDetails"
             android:exported="false" />
         <activity
-            android:name=".SignUpActivity"
+            android:name=".authentication.SignUpActivity"
             android:exported="false" />
         <activity
-            android:name=".SignInActivity"
+            android:name=".authentication.SignInActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

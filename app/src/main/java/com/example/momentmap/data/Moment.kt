@@ -1,4 +1,4 @@
-package com.example.momentmap
+package com.example.momentmap.data
 
 data class Moment(val title: String? = null,
                   val description: String? = null,

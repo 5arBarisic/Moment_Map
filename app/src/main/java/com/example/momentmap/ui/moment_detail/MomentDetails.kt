@@ -1,4 +1,4 @@
-package com.example.momentmap
+package com.example.momentmap.ui.moment_detail
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
@@ -10,11 +10,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import com.bumptech.glide.Glide
+import com.example.momentmap.MainActivity
+import com.example.momentmap.R
 import com.example.momentmap.databinding.ActivityMomentDetailsBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -63,52 +64,42 @@ class MomentDetails : AppCompatActivity() {
         }
         binding.detailTitle.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // Not needed
             }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // Update the title in your moment object when text changes
                 moment["title"] = s.toString()
             }
             override fun afterTextChanged(s: Editable?) {
-                // Not needed
             }
         })
 
         binding.detailDesc.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // Not needed
             }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // Update the title in your moment object when text changes
                 moment["description"] = s.toString()
             }
             override fun afterTextChanged(s: Editable?) {
-                // Not needed
             }
         })
 
         binding.detailLocation.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // Not needed
             }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // Update the title in your moment object when text changes
                 moment["location"] = s.toString()
             }
             override fun afterTextChanged(s: Editable?) {
-                // Not needed
+
             }
         })
         binding.detailDate.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // Not needed
+
             }
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // Update the title in your moment object when text changes
                 moment["date"] = s.toString()
             }
             override fun afterTextChanged(s: Editable?) {
-                // Not needed
             }
         })
 

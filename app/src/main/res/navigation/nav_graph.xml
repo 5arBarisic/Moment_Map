@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.example.momentmap.HomeFragment"
+        android:name="com.example.momentmap.ui.moments.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -22,7 +22,7 @@
     </fragment>
     <fragment
         android:id="@+id/addMomentFragment"
-        android:name="com.example.momentmap.AddMomentFragment"
+        android:name="com.example.momentmap.ui.new_moment.AddMomentFragment"
         android:label="fragment_add_moment"
         tools:layout="@layout/fragment_add_moment" >
         <action
@@ -31,7 +31,7 @@
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.example.momentmap.SettingsFragment"
+        android:name="com.example.momentmap.ui.settings.SettingsFragment"
         android:label="fragment_settings"
         tools:layout="@layout/fragment_settings" >
         <action
@@ -43,7 +43,7 @@
     </fragment>
     <fragment
         android:id="@+id/diaryFragment"
-        android:name="com.example.momentmap.DiaryFragment"
+        android:name="com.example.momentmap.ui.diary.DiaryFragment"
         android:label="fragment_diary"
         tools:layout="@layout/fragment_diary" >
         <action

@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:layout_gravity="center"
     android:gravity="center"
-    tools:context=".SettingsFragment">
+    tools:context=".ui.settings.SettingsFragment">
 
     <Button
         android:id="@+id/sign_out_button"
