@@ -38,6 +38,10 @@ class SignUpActivity : AppCompatActivity() {
 
         binding.signUpButton.isEnabled = false
 
+        binding.signInButton.setOnClickListener {
+            startActivity(Intent(this, SignInActivity::class.java))
+        }
+
         binding.signUpButton.setOnClickListener {
             auth.createUserWithEmailAndPassword(
                 binding.email.text.toString(),
@@ -52,11 +56,8 @@ class SignUpActivity : AppCompatActivity() {
                         binding.password.text.toString()
                     )
 
-                    Log.d("test","test");
                     startActivity(Intent(this, MainActivity::class.java))
-                    Log.d("test2","test2");
-                    finish()
-                    Log.d("test3","test3");
+
                 } else {
                     Toast.makeText(this, "User creation failed!", Toast.LENGTH_SHORT).show()
                 }
