@@ -3,6 +3,7 @@ package com.example.momentmap
 import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -13,7 +14,6 @@ import android.util.Log
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.navigation.NavController
 import com.bumptech.glide.Glide
 import com.example.momentmap.databinding.ActivityMomentDetailsBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -30,7 +30,6 @@ class MomentDetails : AppCompatActivity() {
     private var imageURL: String? = null
     private lateinit var auth: FirebaseAuth
     private lateinit var database: DatabaseReference
-    private lateinit var navController: NavController
     private var id: String? = null
     private val moment = mutableMapOf<String, String>()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,7 +59,6 @@ class MomentDetails : AppCompatActivity() {
                 imageUrl = bundle.getString("Image")!!
                 Glide.with(this).load(bundle.getString("Image"))
                     .into(binding.detailImage)
-                moment["imageUrl"] = imageUrl
             }
         }
         binding.detailTitle.addTextChangedListener(object : TextWatcher {
@@ -70,7 +68,6 @@ class MomentDetails : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 // Update the title in your moment object when text changes
                 moment["title"] = s.toString()
-                Log.d("MainActivity", moment.toString())
             }
             override fun afterTextChanged(s: Editable?) {
                 // Not needed
@@ -84,7 +81,6 @@ class MomentDetails : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 // Update the title in your moment object when text changes
                 moment["description"] = s.toString()
-                Log.d("MainActivity", moment.toString())
             }
             override fun afterTextChanged(s: Editable?) {
                 // Not needed
@@ -98,7 +94,6 @@ class MomentDetails : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 // Update the title in your moment object when text changes
                 moment["location"] = s.toString()
-                Log.d("MainActivity", moment.toString())
             }
             override fun afterTextChanged(s: Editable?) {
                 // Not needed
@@ -111,7 +106,6 @@ class MomentDetails : AppCompatActivity() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 // Update the title in your moment object when text changes
                 moment["date"] = s.toString()
-                Log.d("MainActivity", moment.toString())
             }
             override fun afterTextChanged(s: Editable?) {
                 // Not needed
@@ -126,8 +120,27 @@ class MomentDetails : AppCompatActivity() {
 
         binding.detailDate.setOnClickListener { onDateClick() }
         binding.updateButton.setOnClickListener {
-            uploadData(id.toString())
+            saveData(id.toString(),this)
         }
+        binding.deleteButton.setOnClickListener {
+            deleteData(id.toString())
+        }
+    }
+
+    private fun deleteData(childId: String) {
+        auth = FirebaseAuth.getInstance()
+        database = FirebaseDatabase
+            .getInstance("https://momentmap-faef6-default-rtdb.europe-west1.firebasedatabase.app/")
+            .getReference("Users")
+
+        database.child(auth.currentUser?.uid.toString()).child("Moments")
+            .child(childId).removeValue().addOnSuccessListener {
+                Toast.makeText(this, "Moment deleted!", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(this, MainActivity::class.java))
+                finish()
+            }.addOnFailureListener {
+                Toast.makeText(this, "Moment isn't deleted!", Toast.LENGTH_SHORT).show()
+            }
     }
 
 
@@ -158,32 +171,44 @@ class MomentDetails : AppCompatActivity() {
     }
 
     @SuppressLint("SuspiciousIndentation")
-    private fun saveData(childId: String) {
-        val storageReference = FirebaseStorage.getInstance().reference.child("Moment images")
-            .child(uri!!.lastPathSegment!!)
+    private fun saveData(childId: String,context: Context) {
+        if(uri != null) {
+            val storageReference = FirebaseStorage.getInstance().reference.child("Moment images")
+                .child(uri!!.lastPathSegment!!)
 
 
-        val builder = AlertDialog.Builder(this)
-        builder.setCancelable(false)
-        builder.setView(R.layout.progress)
-        val dialog = builder.create()
+            val builder = AlertDialog.Builder(context)
+            builder.setCancelable(false)
+            builder.setView(R.layout.progress)
+            val dialog = builder.create()
+            dialog.show()
+            storageReference.putFile(uri!!).addOnSuccessListener { taskSnapshot ->
 
-        storageReference.putFile(uri!!).addOnSuccessListener { taskSnapshot ->
-            val uriTask = taskSnapshot.storage.downloadUrl
-            while (!uriTask.isComplete);
-            val urlImage = uriTask.result
-            imageURL = urlImage.toString()
+                val uriTask = taskSnapshot.storage.downloadUrl
+                while (!uriTask.isComplete);
+                val urlImage = uriTask.result
+                imageURL = urlImage.toString()
+                dialog.dismiss()
+                uploadData(childId)
+
+
+
+            }.addOnFailureListener {
+                dialog.dismiss()
+            }
+        }else{
             uploadData(childId)
-            dialog.dismiss()
-
-
-        }.addOnFailureListener {
-            dialog.dismiss()
         }
 
     }
 
     private fun uploadData(childId: String) {
+
+        if(imageURL != null){
+            moment["imageUrl"] = imageURL.toString()
+        }else{
+            moment["imageUrl"] = imageUrl
+        }
 
         auth = FirebaseAuth.getInstance()
         database = FirebaseDatabase

@@ -77,13 +77,31 @@
             android:text="Description"
             android:textColor="@color/lavender"
             android:textSize="18sp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
         <Button
-            android:layout_width="150dp"
+            android:layout_width="0dp"
             android:layout_height="60dp"
             android:text="Update"
+            android:layout_weight="1"
             android:id="@+id/updateButton"
+            android:layout_marginEnd="1dp"
             android:textSize="18sp"
             android:layout_marginTop="20dp"
             app:cornerRadius = "10dp"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:text="Delete"
+            android:backgroundTint="@color/red"
+            android:id="@+id/deleteButton"
+            android:layout_marginStart="1dp"
+            android:textSize="18sp"
+            android:layout_marginTop="20dp"
+            app:cornerRadius = "10dp"/>
+    </LinearLayout>
     </LinearLayout>
 </ScrollView>
