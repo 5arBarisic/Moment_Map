@@ -26,10 +26,10 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Add moment"
+                android:text="@string/add_moment"
                 android:textAlignment="center"
                 android:textColor="@color/lavender"
-                android:textSize="30dp" />
+                android:textSize="30sp" />
 
             <ImageView
                 android:id="@+id/uploadImage"
@@ -37,7 +37,7 @@
                 android:layout_height="210dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="5dp"
-                android:contentDescription="add image"
+                android:contentDescription="@string/add_image"
                 android:scaleType="fitXY"
                 android:src="@drawable/uploadimg" />
 
@@ -51,7 +51,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:layout_height="50dp"
-                    android:text="Take photo"
+                    android:text="@string/add_moment_take_photo"
                     android:layout_marginEnd="2dp"
                     android:textSize="18sp"
                     app:cornerRadius="10dp" />
@@ -61,7 +61,7 @@
                     android:layout_weight="1"
                     android:layout_marginStart="2dp"
                     android:layout_height="50dp"
-                    android:text="Get location"
+                    android:text="@string/add_moment_get_location"
                     android:textSize="18sp"
                     app:cornerRadius="10dp" />
             </LinearLayout>
@@ -73,7 +73,7 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/lavender_border"
                 android:gravity="start|center_vertical"
-                android:hint="Enter title"
+                android:hint="@string/add_moment_enter_title"
                 android:inputType="textCapSentences|textMultiLine"
                 android:maxLines="1"
                 android:padding="16dp"
@@ -86,7 +86,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/lavender_border"
                 android:gravity="start|center_vertical"
-                android:hint="Enter moment description"
+                android:hint="@string/add_moment_enter_moment_description"
                 android:inputType="textCapSentences|textMultiLine"
                 android:padding="16dp"
                 android:textColor="@color/lavender" />
@@ -106,7 +106,7 @@
                     android:background="@drawable/lavender_border"
                     android:gravity="center"
                     android:textColor="@color/lavender"
-                    android:hint="Date"
+                    android:hint="@string/add_moment_date"
                     android:textSize="18sp" />
 
                 <EditText
@@ -119,7 +119,7 @@
                     android:background="@drawable/lavender_border"
                     android:gravity="center"
                     android:textColor="@color/lavender"
-                    android:hint="Location"
+                    android:hint="@string/add_moment_location"
                     android:inputType="textCapSentences|textMultiLine" />
             </LinearLayout>
 
@@ -128,7 +128,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="20dp"
-                android:text="Save"
+                android:text="@string/add_moment_save"
                 android:textSize="18sp"
                 app:cornerRadius="10dp" />
         </LinearLayout>

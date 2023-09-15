@@ -88,11 +88,9 @@ class AddMomentFragment : Fragment() {
                 val originalBitmap = data?.extras?.get("data") as Bitmap?
 
                 if (originalBitmap != null) {
-                    // Define the target width and height for the scaled bitmap
-                    val targetWidth = 1024 // Adjust as needed
-                    val targetHeight = 768 // Adjust as needed
+                    val targetWidth = 1024
+                    val targetHeight = 768
 
-                    // Create a scaled bitmap with the target dimensions
                     val scaledBitmap = Bitmap.createScaledBitmap(
                         originalBitmap,
                         targetWidth,
@@ -100,10 +98,8 @@ class AddMomentFragment : Fragment() {
                         false
                     )
 
-                    // Save the scaled bitmap and get its Uri
                     uri = saveImage(scaledBitmap)
 
-                    // Set the image to your ImageView
                     binding.uploadImage.setImageURI(uri)
                 } else {
                     Toast.makeText(this.context, "No image data received", Toast.LENGTH_SHORT)
@@ -151,7 +147,6 @@ class AddMomentFragment : Fragment() {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            // Request location permissions
             ActivityCompat.requestPermissions(
                 requireActivity(),
                 arrayOf(
@@ -161,19 +156,17 @@ class AddMomentFragment : Fragment() {
                 REQUEST_LOCATION_PERMISSIONS
             )
         } else {
-            // Permissions are already granted, get the last location
             fusedLocationProviderClient.lastLocation.addOnSuccessListener { location ->
                 if (location != null) {
                     val addressList = geocoder.getFromLocation(location.latitude, location.longitude, 1)
                     if (addressList!!.isNotEmpty()) {
                         val address = addressList[0]
                         binding.uploadLocation.setText(address.locality)
-                        Log.d("Location", "Locality: ${address.locality}")
                     } else {
-                        Log.d("Location", "No address found")
+                        Toast.makeText(this.context, "No address found.", Toast.LENGTH_SHORT).show()
                     }
                 } else {
-                    Log.d("Location", "Location is null")
+                    Toast.makeText(this.context, "Location is null.", Toast.LENGTH_SHORT).show()
                 }
             }
         }

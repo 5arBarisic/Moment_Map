@@ -2,7 +2,6 @@
     <string name="app_name">MomentMap</string>
     <string name="sign_in">Sign In</string>
     <string name="email">E-mail</string>
-
     <string name="password">Password</string>
     <string name="confirm_password">Confirm password</string>
     <string name="oldPassword">Old password</string>
@@ -14,4 +13,24 @@
     <string name="sign_out">Sign out</string>
     <string name="change_password">Change password</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="detail_title">Title</string>
+    <string name="detail_date_hint">Date</string>
+    <string name="detail_location_hint">Location</string>
+    <string name="detail_description">Description</string>
+    <string name="detail_update">Update</string>
+    <string name="detail_delete">Delete</string>
+    <string name="add_moment">Add moment</string>
+    <string name="add_image">add image</string>
+    <string name="add_moment_take_photo">Take photo</string>
+    <string name="add_moment_get_location">Get location</string>
+    <string name="add_moment_enter_title">Enter title</string>
+    <string name="add_moment_enter_moment_description">Enter moment description</string>
+    <string name="add_moment_date">Date</string>
+    <string name="add_moment_location">Location</string>
+    <string name="add_moment_save">Save</string>
+    <string name="settings">SETTINGS</string>
+    <string name="moment_item_title">Title</string>
+    <string name="moment_item_date">Date</string>
+    <string name="moment_item_location">Location</string>
+    <string name="loading">Loading...</string>
 </resources>
