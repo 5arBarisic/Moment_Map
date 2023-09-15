@@ -41,7 +41,7 @@
                 android:contentDescription="add image" />
             <Button
                 android:layout_width="150dp"
-                android:layout_height="60dp"
+                android:layout_height="50dp"
                 android:text="Take photo"
                 android:layout_gravity="center"
                 android:id="@+id/takePhoto"
@@ -50,7 +50,7 @@
                 app:cornerRadius = "10dp"/>
             <EditText
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="50dp"
                 android:id="@+id/uploadTitle"
                 android:background="@drawable/lavender_border"
                 android:layout_marginTop="20dp"
@@ -65,7 +65,7 @@
                 android:layout_height="100dp"
                 android:id="@+id/uploadDesc"
                 android:background="@drawable/lavender_border"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:padding="16dp"
                 android:inputType="textCapSentences|textMultiLine"
                 android:hint="Enter moment description"
@@ -80,8 +80,8 @@
                     android:id="@+id/uploadDate"
                     android:layout_width="0dp"
                     android:background="@drawable/lavender_border"
-                    android:layout_height="60dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginEnd="1dp"
                     android:gravity="center"
                     android:textSize="18sp"
@@ -92,8 +92,8 @@
                     android:id="@+id/uploadLocation"
                     android:layout_width="0dp"
                     android:background="@drawable/lavender_border"
-                    android:layout_height="60dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginStart="1dp"
                     android:gravity="center"
                     android:inputType="textCapSentences|textMultiLine"

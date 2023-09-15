@@ -192,7 +192,9 @@ class MomentDetails : AppCompatActivity() {
         }
 
     }
-
+    private fun checkString(test:String): Boolean {
+        return !(test =="" || test ==null)
+    }
     private fun uploadData(childId: String) {
 
         if(imageURL != null){
@@ -201,19 +203,23 @@ class MomentDetails : AppCompatActivity() {
             moment["imageUrl"] = imageUrl
         }
 
-        auth = FirebaseAuth.getInstance()
-        database = FirebaseDatabase
-            .getInstance("https://momentmap-faef6-default-rtdb.europe-west1.firebasedatabase.app/")
-            .getReference("Users")
+        if (checkString(moment["title"].toString()) && checkString(moment["description"].toString()) && checkString(moment["location"].toString()) && checkString(moment["date"].toString())) {
+            auth = FirebaseAuth.getInstance()
+            database = FirebaseDatabase
+                .getInstance("https://momentmap-faef6-default-rtdb.europe-west1.firebasedatabase.app/")
+                .getReference("Users")
 
-        database.child(auth.currentUser?.uid.toString()).child("Moments")
-            .child(childId).updateChildren(moment as Map<String, Any>).addOnSuccessListener {
-                Toast.makeText(this, "Moment updated!", Toast.LENGTH_SHORT).show()
-                startActivity(Intent(this, MainActivity::class.java))
-                finish()
-            }.addOnFailureListener {
-                Toast.makeText(this, "Moment isn't updated!", Toast.LENGTH_SHORT).show()
+            database.child(auth.currentUser?.uid.toString()).child("Moments")
+                .child(childId).updateChildren(moment as Map<String, Any>).addOnSuccessListener {
+                    Toast.makeText(this, "Moment updated!", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, MainActivity::class.java))
+                    finish()
+                }.addOnFailureListener {
+                    Toast.makeText(this, "Moment isn't updated!", Toast.LENGTH_SHORT).show()
+                }
+        }
+            else{
+                Toast.makeText(this, "Please fill out all fields.", Toast.LENGTH_SHORT).show()
             }
-
     }
 }

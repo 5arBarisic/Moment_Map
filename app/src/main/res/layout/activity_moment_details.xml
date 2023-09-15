@@ -16,9 +16,12 @@
         <EditText
             android:id="@+id/detailTitle"
             android:layout_width="wrap_content"
+            android:minWidth="100dp"
             android:layout_height="wrap_content"
+            android:textAlignment="center"
             android:layout_gravity="center"
             android:layout_marginTop="14dp"
+            android:inputType="textCapSentences|textMultiLine"
             android:layout_marginBottom="12dp"
             android:background="@drawable/lavender_border"
             android:padding="10dp"
@@ -78,6 +81,7 @@
             android:background="@drawable/lavender_border"
             android:padding="20dp"
             android:text="Description"
+            android:inputType="textCapSentences|textMultiLine"
             android:textColor="@color/lavender"
             android:textSize="18sp" />
     <LinearLayout

@@ -29,8 +29,9 @@
             android:text="Title"
             android:textColor="@color/lavender"
             android:textSize="16sp"
+            android:textStyle="bold"
             android:gravity="center"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:layout_marginStart="20dp"
             android:layout_toEndOf="@id/recImage"/>
         <TextView
@@ -41,8 +42,23 @@
             android:layout_toEndOf="@id/recTitle"
             android:layout_marginTop="20dp"
             android:gravity="center"
+            android:textStyle="bold"
             android:textAlignment="center"
             android:textColor="@color/lavender"
             android:textSize="16sp"/>
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/recLocation"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:text="Location"
+            android:textColor="@color/lavender"
+            android:textSize="15sp"
+            android:layout_toEndOf="@id/recImage"
+            android:layout_below="@id/recTitle"
+            android:layout_marginStart="20dp"
+            android:maxLines="1"
+            android:layout_marginBottom="12dp"/>
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

@@ -20,6 +20,7 @@ class MyAdapter(private val context: Context, private var momentList: List<Momen
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.recTitle.text = momentList[position].title
         holder.recDate.text = momentList[position].date
+        holder.recLocation.text = momentList[position].location
 
         holder.recCard.setOnClickListener {
             val intent = Intent(context, MomentDetails::class.java)
@@ -35,13 +36,19 @@ class MyAdapter(private val context: Context, private var momentList: List<Momen
     override fun getItemCount(): Int {
         return momentList.size
     }
+    fun searchMomentList(searchList: List<Moment>) {
+        momentList = searchList
+        notifyDataSetChanged()
+    }
 }
 class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     var recTitle: TextView
     var recDate: TextView
+    var recLocation: TextView
     var recCard: CardView
     init {
         recTitle = itemView.findViewById(R.id.recTitle)
+        recLocation = itemView.findViewById(R.id.recLocation)
         recDate = itemView.findViewById(R.id.recDate)
         recCard = itemView.findViewById(R.id.recCard)
     }

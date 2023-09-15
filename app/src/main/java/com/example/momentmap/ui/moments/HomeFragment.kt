@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -18,6 +19,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import java.util.Locale
 
 
 class HomeFragment : Fragment() {
@@ -67,6 +69,8 @@ class HomeFragment : Fragment() {
                         momentList.add(moment)
                     }
                 }
+                binding.search.setQuery("", false)
+                adapter.searchMomentList(momentList)
                 adapter.notifyDataSetChanged()
                 dialog.dismiss()
 
@@ -78,10 +82,34 @@ class HomeFragment : Fragment() {
 
         })
 
+        binding.search.setOnQueryTextListener(object :OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return false
+            }
+            override fun onQueryTextChange(newText: String): Boolean {
+                searchList(newText)
+                return true
+            }
+
+        })
+
         binding.fab.setOnClickListener {
             navController.navigate(R.id.action_homeFragment_to_addMomentFragment)
         }
 
         return binding.root
+    }
+    fun searchList(text: String) {
+        val searchList = java.util.ArrayList<Moment>()
+        for (moment in momentList) {
+            if (moment.title?.lowercase()
+                    ?.contains(text.lowercase(Locale.getDefault())) == true ||
+                moment.location?.lowercase()
+                    ?.startsWith(text.lowercase(Locale.getDefault())) == true
+            ) {
+                searchList.add(moment)
+            }
+        }
+        adapter.searchMomentList(searchList)
     }
 }
