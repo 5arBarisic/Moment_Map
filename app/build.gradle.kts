@@ -42,6 +42,7 @@ android {
 dependencies {
 
     implementation("com.google.firebase:firebase-storage-ktx:20.2.1")
+    implementation("com.google.android.gms:play-services-location:21.0.1")
     val navVersion = "2.5.1"
 
     implementation("androidx.navigation:navigation-fragment-ktx:$navVersion")

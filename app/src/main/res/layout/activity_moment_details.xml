@@ -1,114 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.moment_detail.MomentDetails">
 
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp"
-        >
-
-        <EditText
-            android:id="@+id/detailTitle"
-            android:layout_width="wrap_content"
-            android:minWidth="100dp"
-            android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:layout_gravity="center"
-            android:layout_marginTop="14dp"
-            android:inputType="textCapSentences|textMultiLine"
-            android:layout_marginBottom="12dp"
-            android:background="@drawable/lavender_border"
-            android:padding="10dp"
-            android:text="Title"
-            android:textColor="@color/lavender"
-            android:textSize="24sp" />
-
-        <ImageView
-            android:id="@+id/detailImage"
-            android:layout_width="wrap_content"
-            android:layout_height="300sp"
-            android:layout_gravity="center"
-            android:padding="8dp"
-            android:scaleType="fitXY"
-            android:src="@drawable/uploadimg" />
+        android:layout_marginStart="20dp"
+        android:layout_gravity="center"
+        android:layout_marginEnd="20dp"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/detailDate"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginEnd="1dp"
-                android:gravity="center"
-                android:textSize="18sp"
-                android:layout_weight="1"
-                android:background="@drawable/lavender_border"
-                android:hint="Date"
-                android:padding="16dp"
-                android:textColor="@color/lavender" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:background="@drawable/lavender_border"
+            android:padding="20dp">
 
             <EditText
-                android:id="@+id/detailLocation"
-                android:layout_width="0dp"
-                android:layout_height="60dp"
-                android:layout_marginStart="1dp"
-                android:layout_marginTop="20dp"
-                android:gravity="center"
-                android:layout_weight="1"
+                android:id="@+id/detailTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="14dp"
+                android:layout_marginBottom="12dp"
                 android:background="@drawable/lavender_border"
-                android:hint="Location"
                 android:inputType="textCapSentences|textMultiLine"
-                android:padding="16dp"
-                android:textColor="@color/lavender" />
-        </LinearLayout>
+                android:minWidth="100dp"
+                android:padding="10dp"
+                android:text="Title"
+                android:textAlignment="center"
+                android:textColor="@color/lavender"
+                android:textSize="24sp" />
 
-        <EditText
-            android:id="@+id/detailDesc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/lavender_border"
-            android:padding="20dp"
-            android:text="Description"
-            android:inputType="textCapSentences|textMultiLine"
-            android:textColor="@color/lavender"
-            android:textSize="18sp" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:text="Update"
-            android:layout_weight="1"
-            android:id="@+id/updateButton"
-            android:layout_marginEnd="1dp"
-            android:textSize="18sp"
-            android:layout_marginTop="20dp"
-            app:cornerRadius = "10dp"/>
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_weight="1"
-            android:text="Delete"
-            android:backgroundTint="@color/red"
-            android:id="@+id/deleteButton"
-            android:layout_marginStart="1dp"
-            android:textSize="18sp"
-            android:layout_marginTop="20dp"
-            app:cornerRadius = "10dp"/>
-    </LinearLayout>
-    </LinearLayout>
+            <ImageView
+                android:id="@+id/detailImage"
+                android:layout_width="wrap_content"
+                android:layout_height="300sp"
+                android:layout_gravity="center"
+                android:padding="8dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/uploadimg" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/detailDate"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/lavender_border"
+                    android:gravity="center"
+                    android:hint="Date"
+                    android:padding="16dp"
+                    android:textColor="@color/lavender"
+                    android:textSize="18sp" />
+
+                <EditText
+                    android:id="@+id/detailLocation"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/lavender_border"
+                    android:gravity="center"
+                    android:hint="Location"
+                    android:inputType="textCapSentences|textMultiLine"
+                    android:padding="16dp"
+                    android:textColor="@color/lavender" />
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/detailDesc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/lavender_border"
+                android:inputType="textCapSentences|textMultiLine"
+                android:padding="20dp"
+                android:text="Description"
+                android:textColor="@color/lavender"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/updateButton"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginEnd="1dp"
+                    android:layout_weight="1"
+                    android:text="Update"
+                    android:textSize="18sp"
+                    app:cornerRadius="10dp" />
+
+                <Button
+                    android:id="@+id/deleteButton"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:layout_marginStart="1dp"
+                    android:layout_marginTop="20dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/red"
+                    android:text="Delete"
+                    android:textSize="18sp"
+                    app:cornerRadius="10dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
 </ScrollView>

@@ -5,10 +5,13 @@ import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.location.Geocoder
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -16,12 +19,17 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import android.Manifest
 import com.example.momentmap.R
 import com.example.momentmap.data.Moment
 import com.example.momentmap.databinding.FragmentAddMomentBinding
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -31,6 +39,7 @@ import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
 import java.util.Calendar
+import java.util.Locale
 import java.util.UUID
 
 class AddMomentFragment : Fragment() {
@@ -41,7 +50,12 @@ class AddMomentFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var database: DatabaseReference
     private lateinit var navController: NavController
+    private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
+    private lateinit var geocoder: Geocoder
 
+    companion object {
+        private const val REQUEST_LOCATION_PERMISSIONS = 123
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -49,6 +63,10 @@ class AddMomentFragment : Fragment() {
         binding = FragmentAddMomentBinding.inflate(layoutInflater)
         val rootView = binding.root
 
+        fusedLocationProviderClient =
+            LocationServices.getFusedLocationProviderClient(requireContext())
+
+        geocoder = Geocoder(requireContext(), Locale.getDefault())
         val activityResultLauncherForUploadImage =
             registerForActivityResult<Intent, ActivityResult>(
                 ActivityResultContracts.StartActivityForResult()
@@ -88,7 +106,8 @@ class AddMomentFragment : Fragment() {
                     // Set the image to your ImageView
                     binding.uploadImage.setImageURI(uri)
                 } else {
-                    Toast.makeText(this.context, "No image data received", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this.context, "No image data received", Toast.LENGTH_SHORT)
+                        .show()
                 }
             } else {
                 Toast.makeText(this.context, "No image selected", Toast.LENGTH_SHORT).show()
@@ -98,6 +117,11 @@ class AddMomentFragment : Fragment() {
         binding.takePhoto.setOnClickListener {
             val photoTake = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             activityResultLauncherForTakePhoto.launch(photoTake)
+        }
+
+
+        binding.getLocation.setOnClickListener {
+            getLastLocation()
         }
 
         binding.uploadImage.setOnClickListener {
@@ -114,6 +138,45 @@ class AddMomentFragment : Fragment() {
         }
 
         return rootView
+    }
+
+
+    private fun getLastLocation() {
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED ||
+            ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            // Request location permissions
+            ActivityCompat.requestPermissions(
+                requireActivity(),
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ),
+                REQUEST_LOCATION_PERMISSIONS
+            )
+        } else {
+            // Permissions are already granted, get the last location
+            fusedLocationProviderClient.lastLocation.addOnSuccessListener { location ->
+                if (location != null) {
+                    val addressList = geocoder.getFromLocation(location.latitude, location.longitude, 1)
+                    if (addressList!!.isNotEmpty()) {
+                        val address = addressList[0]
+                        binding.uploadLocation.setText(address.locality)
+                        Log.d("Location", "Locality: ${address.locality}")
+                    } else {
+                        Log.d("Location", "No address found")
+                    }
+                } else {
+                    Log.d("Location", "Location is null")
+                }
+            }
+        }
     }
 
     private fun saveImage(image: Bitmap): Uri? {
@@ -167,7 +230,7 @@ class AddMomentFragment : Fragment() {
 
     @SuppressLint("SuspiciousIndentation")
     private fun saveData() {
-        if(uri != null) {
+        if (uri != null) {
             val storageReference = FirebaseStorage.getInstance().reference.child("Moment images")
                 .child(uri!!.lastPathSegment!!)
 
@@ -190,14 +253,15 @@ class AddMomentFragment : Fragment() {
             }.addOnFailureListener {
                 dialog.dismiss()
             }
-        }else{
-                imageURL=null
-                uploadData()
-            }
+        } else {
+            imageURL = null
+            uploadData()
+        }
 
     }
-    private fun checkString(test:String): Boolean {
-        return !(test =="" || test ==null)
+
+    private fun checkString(test: String): Boolean {
+        return !(test == "" || test == null)
     }
 
     private fun uploadData() {
@@ -226,8 +290,7 @@ class AddMomentFragment : Fragment() {
                     Toast.makeText(this.context, "Moment isn't saved!", Toast.LENGTH_SHORT).show()
                 }
 
-        }
-        else{
+        } else {
             Toast.makeText(this.context, "Please fill out all fields.", Toast.LENGTH_SHORT).show()
         }
     }
