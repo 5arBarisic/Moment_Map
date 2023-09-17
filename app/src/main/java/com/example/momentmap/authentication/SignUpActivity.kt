@@ -1,4 +1,4 @@
-package com.example.momentmap
+package com.example.momentmap.authentication
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +8,9 @@ import android.text.TextWatcher
 import android.util.Log
 import android.util.Patterns
 import android.widget.Toast
+import com.example.momentmap.MainActivity
+import com.example.momentmap.R
+import com.example.momentmap.data.User
 import com.example.momentmap.databinding.ActivitySignUpBinding
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
@@ -35,6 +38,10 @@ class SignUpActivity : AppCompatActivity() {
 
         binding.signUpButton.isEnabled = false
 
+        binding.signInButton.setOnClickListener {
+            startActivity(Intent(this, SignInActivity::class.java))
+        }
+
         binding.signUpButton.setOnClickListener {
             auth.createUserWithEmailAndPassword(
                 binding.email.text.toString(),
@@ -49,11 +56,8 @@ class SignUpActivity : AppCompatActivity() {
                         binding.password.text.toString()
                     )
 
-                    Log.d("test","test");
                     startActivity(Intent(this, MainActivity::class.java))
-                    Log.d("test2","test2");
-                    finish()
-                    Log.d("test3","test3");
+
                 } else {
                     Toast.makeText(this, "User creation failed!", Toast.LENGTH_SHORT).show()
                 }

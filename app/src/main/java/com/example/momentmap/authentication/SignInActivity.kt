@@ -1,4 +1,4 @@
-package com.example.momentmap
+package com.example.momentmap.authentication
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +7,8 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.Patterns
 import android.widget.Toast
+import com.example.momentmap.MainActivity
+import com.example.momentmap.R
 import com.example.momentmap.databinding.ActivitySignInBinding
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
